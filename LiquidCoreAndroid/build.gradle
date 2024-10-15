@@ -156,6 +156,17 @@ task renameAARRelease (type: Copy) {
 }
 
 afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.jitpack'
+                artifactId = 'android-example'
+                version = '1.0'
+            }
+        }
+    }
     if (project.hasProperty("bundleReleaseAar")) {
         bundleReleaseAar.finalizedBy copyHeadersToAARRelease
         copyHeadersToAARRelease.finalizedBy renameAARRelease
